@@ -24,7 +24,7 @@ class Pictures_plase(models.Model):
                             related_name='pictures')
 
     image = models.ImageField('Изображение места', 
-                            upload_to='static/images', 
+                            upload_to='images', 
                             blank=True)
 
     order = models.PositiveIntegerField('Номер изображения', 
