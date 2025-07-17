@@ -18,7 +18,7 @@ class Place(models.Model):
         return self.title
 
 
-class Pictures_plase(models.Model):
+class Pictures_places(models.Model):
     place = models.ForeignKey(Place, 
                             on_delete=models.CASCADE, 
                             related_name='pictures')

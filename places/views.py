@@ -39,7 +39,7 @@ def index(request):
 def see_place_by_id(request, place_id):
     place = get_object_or_404(Place, id=place_id)
 
-    urthjo9gbh = {
+    json_response = {
         'title': place.title,
         'imgs': [image.image.url for image in place.pictures.all()],
         'description_short': place.description_short,
@@ -50,4 +50,4 @@ def see_place_by_id(request, place_id):
         }
     }
 
-    return JsonResponse(urthjo9gbh, json_dumps_params={'indent': 2, 'ensure_ascii': False})
+    return JsonResponse(json_response, json_dumps_params={'indent': 2, 'ensure_ascii': False})
