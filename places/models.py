@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from tinymce.models import HTMLField
 
 
 class Place(models.Model):
@@ -7,7 +8,7 @@ class Place(models.Model):
     description_short = models.TextField('Краткое описание экскурсии', 
                                         default='Описание в разработке', 
                                         blank=True)
-    description_long = models.TextField('Подробное описание экскурсии', 
+    description_long = HTMLField('Подробное описание экскурсии', 
                                         default='Описание в разработке', 
                                         blank=True)
 
