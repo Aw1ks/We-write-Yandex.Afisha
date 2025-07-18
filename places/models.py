@@ -15,7 +15,6 @@ class Place(models.Model):
     latitude = models.FloatField('Широта')
     longitude = models.FloatField('Долгота')
 
-
     class Meta:
         verbose_name = "Место"
         verbose_name_plural = "Места"
