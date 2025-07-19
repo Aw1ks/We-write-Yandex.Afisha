@@ -1,105 +1,105 @@
 # We-write-Yandex.Afisha
-## О чем проект
-Сайт с интерактивной картой Москвы на которой отмечены виды активного отдыха с подробными описаниями.
-## Переменные окружения
-Часть настроек проекта берётся из переменных окружения. Чтобы их определить, создайте файл `.env` рядом с `manage.py` и запишите туда данные в формате: `ПЕРЕМЕННАЯ=значение`.
+## About the project
+A site with an interactive map of Moscow, where the types of active recreation are marked with detailed descriptions.
+## Environment variables
+Some of the project settings are taken from environment variables. To define them, create a `.env` file next to `manage.py` and write the data there in the format: `VARIABLE=value`.
 
 - `DEBUG`:
-Эта переменная указывает, находится ли приложение в режиме отладки. Если значение DEBUG установлено в True, приложение будет выводить подробные сообщения об ошибках и другую отладочную информацию. В производственной среде это значение должно быть False, чтобы избежать утечек информации о внутренней структуре приложения.
+This variable specifies whether the application is in debug mode. If DEBUG is True, the application will print detailed error messages and other debugging information. In a production environment, this value should be False to avoid leaking information about the internal structure of the application.
 
 - `ALLOWED_HOSTS`:
-Это список доменных имен и IP-адресов, с которых ваше приложение может принимать запросы. В производственной среде необходимо указывать только те хосты, с которых ваше приложение должно принимать запросы.
+This is a list of domain names and IP addresses from which your application can accept requests. In a production environment, you only need to specify the hosts from which your application should accept requests.
 
 - `DB_ENGINE`:
-Эта переменная указывает на тип базы данных, которую вы используете (например, PostgreSQL, MySQL, SQLite и т.д.). Встроенные серверные базы данных в Django:
+This variable specifies the type of database you are using (e.g. PostgreSQL, MySQL, SQLite, etc.). Built-in database servers in Django:
 ```
 'django.db.backends.postgresql'
 'django.db.backends.mysql'
 'django.db.backends.sqlite3'
 'django.db.backends.oracle'
 ```
-Она определяет, какой драйвер будет использоваться для подключения к базе данных.
+It defines which driver will be used to connect to the database.
 
 - `DB_NAME`:
-Это имя базы данных, к которой ваше приложение будет подключаться. В зависимости от используемого движка базы данных, это может быть имя конкретной базы данных, созданной для вашего приложения.
+This is the name of the database your application will connect to. Depending on the database engine you are using, this may be the name of a specific database created for your application.
 
 - `SECRET_KEY`:
-Это строка, используемая для обеспечения безопасности вашего приложения. В Django, например, она используется для операций, таких как создание токенов и шифрование данных.
-его можно получуить следуюющим образом:
+This is a string used to secure your application. In Django, for example, it is used for operations such as token creation and data encryption.
+It can be obtained as follows:
 ```
 python manage.py shell
 >>> from django.core.management.utils import get_random_secret_key
 >>> get_random_secret_key()
 ```
 
-## Как запустить
-Данный проект разработан на версии `Python 3.12.5`
+## How to run
+This project is developed on version `Python 3.12.5`
 
-### Скачайте данный проект
-Чтобы скачать проект с GitHub, вы можете воспользоваться одним из следующих способов:
+### Download this project
+To download the project from GitHub, you can use one of the following methods:
 
-1. Скачивание ZIP-архива
+1. Downloading a ZIP archive
 
-- Перейдите на страницу репозитория на GitHub.
-- Нажмите на кнопку "Code" в правом верхнем углу.
-- В выпадающем меню выберите "Download ZIP".
-- После завершения загрузки распакуйте ZIP-архив на вашем компьютере.
+- Go to the repository page on GitHub.
+- Click the "Code" button in the upper right corner.
+- Select "Download ZIP" from the drop-down menu.
+- Once the download is complete, unzip the ZIP archive on your computer.
 
-2. Клонирование репозитория с помощью Git
+2. Cloning a repository with Git
 
-Если у вас установлен Git, вы можете клонировать репозиторий с помощью командной строки:
-- Откройте терминал (или командную строку).
-- Перейдите в директорию, куда вы хотите скачать проект.
-- Введите команду:
+If you have Git installed, you can clone the repository using the command line:
+- Open a terminal (or command line).
+- Go to the directory where you want to download the project.
+- Enter the command:
 `git clone https://github.com/username/repository.git`
-Замените username на имя пользователя владельца репозитория, а repository на название репозитория.
-- Нажмите Enter, и Git скачает проект на ваш компьютер.
+Replace username with the username of the repository owner, and repository with the name of the repository.
+- Press Enter, and Git will download the project to your computer.
 
-3. Использование GitHub Desktop
+3. Using GitHub Desktop
 
-Если вы предпочитаете графический интерфейс, вы можете использовать GitHub Desktop:
-- Установите GitHub Desktop, если он у вас еще не установлен.
-- Откройте GitHub Desktop и войдите в свою учетную запись GitHub.
-- Нажмите на "File" (Файл) > "Clone repository" (Клонировать репозиторий).
-- Выберите репозиторий, который хотите скачать, и нажмите "Clone" (Клонировать).
-
-### Установите зависимости
-Что бы проект работал требуется установить зависимости. Это можно сделать с помощью ввода команды:
+If you prefer a graphical interface, you can use GitHub Desktop:
+- Install GitHub Desktop if you don't have it already.
+- Open GitHub Desktop and sign in to your GitHub account.
+- Click "File" > "Clone repository".
+- Select the repository you want to download and click "Clone".
+- 
+### Install dependencies
+For the project to work, you need to install dependencies. This can be done by entering the command:
 ```
 pip install -r requirements.txt
 ```
 
-### Завершение настойки проекта
-- Создайте файл базы данных и сразу примените все миграции командой:
+### Finishing the project setup
+- Create a database file and immediately apply all migrations with the command:
 ```
 python3 manage.py migrate
 ```
-- Создайте и заполните переменные окружения
-- Запустите сервер командой:
+- Create and fill in environment variables
+- Run the server with the command:
 ```
 python3 manage.py runserver
 ```
 
-## Автоматизированное добавление мест
-Для того, чтобы добавить новые места, используется скрипт `load_place.py`
-Как применять:
+## Automated adding of places
+To add new places, use the script `load_place.py`
+How to use:
 ```
-python manage.py load_place (аргументы)
+python manage.py load_place (arguments)
 ```
-### Аргументы
+### Arguments
 - -u / --url
-Импорт данных о месте по ссылке на JSON-файл. Пример:
+Importing place data by reference to a JSON file. Example:
 ```
 python manage.py load_place --url https://example.com/place.json
 ```
 - -p / --path
-Импорт данных о месте из локального JSON-файла. Пример:
+Importing place data from a local JSON file. Example:
 ```
 python manage.py load_place --path ./data/place.json
 ```
 
-### Как должен выглядеть JSON-файл
-JSON-файл должен содержать следующую структуру:
+### What the JSON file should look like
+The JSON file should contain the following structure:
 ```
 {
   "title": "Название места",
