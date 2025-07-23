@@ -62,7 +62,7 @@ If you prefer a graphical interface, you can use GitHub Desktop:
 - Open GitHub Desktop and sign in to your GitHub account.
 - Click "File" > "Clone repository".
 - Select the repository you want to download and click "Clone".
-- 
+  
 ### Install dependencies
 For the project to work, you need to install dependencies. This can be done by entering the command:
 ```
