@@ -87,12 +87,12 @@ How to use:
 python manage.py load_place (arguments)
 ```
 ### Arguments
-- -u / --url
+- -u / --url:
 Importing place data by reference to a JSON file. Example:
 ```
 python manage.py load_place --url https://example.com/place.json
 ```
-- -p / --path
+- -p / --path:
 Importing place data from a local JSON file. Example:
 ```
 python manage.py load_place --path ./data/place.json
