@@ -5,10 +5,10 @@ from tinymce.models import HTMLField
 
 class Place(models.Model):
     title = models.CharField('Название экскурсии', max_length=200)
-    description_short = models.TextField('Краткое описание экскурсии', 
+    short_description = models.TextField('Краткое описание экскурсии', 
                                         default='Описание в разработке', 
                                         blank=True)
-    description_long = HTMLField('Подробное описание экскурсии', 
+    long_description = HTMLField('Подробное описание экскурсии', 
                                         default='Описание в разработке', 
                                         blank=True)
 
@@ -23,18 +23,17 @@ class Place(models.Model):
         return self.title
 
 
-class Pictures_places(models.Model):
+class Image(models.Model):
     place = models.ForeignKey(Place, 
                             on_delete=models.CASCADE, 
                             related_name='pictures')
 
-    image = models.ImageField('Изображение места', 
-                            upload_to='images', 
-                            blank=True)
+    image = models.ImageField('Изображение места', upload_to='images')
 
-    order = models.PositiveIntegerField('Номер изображения', 
-                            default=1,
-                            validators=[MinValueValidator(1)])
+    order = models.PositiveIntegerField('Номер изображения',
+                                        default=1,
+                                        validators=[MinValueValidator(1)],
+                                        db_index=True)
 
     class Meta:
         verbose_name = "Изображение"

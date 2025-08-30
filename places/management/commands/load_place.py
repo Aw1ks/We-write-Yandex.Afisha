@@ -25,18 +25,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if options['url']:
-            getting_place(options['url'], url=True)
+            fetch_and_load_place(options['url'], url=True)
         if options['path']:
-            getting_place(options['path'])
+            fetch_and_load_place(options['path'])
 
 
-def getting_place(json_path: str, url=False):
+def fetch_and_load_place(json_path: str, url=False):
     if url:
         try:
             response = requests.get(json_path)
             response.raise_for_status()
-            url_json_info = response.json()
-            return loading_info_into_db(url_json_info)
+            imported_place = response.json()
+            return load_place_info(imported_place)
 
         except (requests.exceptions.HTTPError, requests.exceptions.JSONDecodeError):
             raise CommandError('Error fetching data or invalid JSON received from URL')
@@ -44,23 +44,26 @@ def getting_place(json_path: str, url=False):
     else: 
         try:
             with open(json_path, 'r', encoding='utf-8') as file:
-                path_json_info =  json.load(file)
-                return loading_info_into_db(path_json_info)
+                places_json_urls =  json.load(file)
+                return load_place_info(places_json_urls)
 
         except (FileNotFoundError, UnicodeDecodeError):
             raise CommandError(f'File not found: {json_path} or invalid JSON received')
 
 
-def loading_info_into_db(json_info):
-    place, created = Place.objects.get_or_create(
-        title=json_info['title'],
-        latitude=float(json_info['coordinates']['lat']),
-        longitude=float(json_info['coordinates']['lng']),
-        defaults={
-            'description_long': json_info.get('description_long', ''),
-            'description_short': json_info.get('description_short', ''),
-        }
-    )
+def load_place_info(json_info):
+    try:
+        place, created = Place.objects.get_or_create(
+            title=json_info['title'],
+            latitude=float(json_info['coordinates']['lat']),
+            longitude=float(json_info['coordinates']['lng']),
+            defaults={
+                'description_long': json_info.get('description_long', ''),
+                'description_short': json_info.get('description_short', ''),
+            }
+        )
+    except MultipleObjectsReturned:
+        raise CommandError(f'Multiple places found with title {json_info["title"]} and given coordinates.')
 
     if not created:
         raise CommandError(f'Location already exists: {json_info["title"]}')
@@ -68,13 +71,13 @@ def loading_info_into_db(json_info):
     for index, image_url in enumerate(json_info['imgs'], start=1):
         image_name = f'{json_info['title']}_{index}.jpg'
         try:
-            get_image(place, image_url, image_name, index)
+            download_and_save_image(place, image_url, image_name, index)
 
         except:
             raise CommandError(f'Failed to load image. Number: {index}, Location: {json_info['title']}')
 
 
-def get_image(place, image_url, image_name, index):
+def download_and_save_image(place, image_url, image_name, index):
     image_response = requests.get(image_url)
     image_response.raise_for_status()
     Pictures_places.objects.create(

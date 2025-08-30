@@ -2,15 +2,15 @@ from django.contrib import admin
 from django.utils.html import mark_safe
 from adminsortable2.admin import SortableTabularInline, SortableAdminBase
 
-from .models import Place, Pictures_places
+from .models import Place, Image
 
 
 MAX_WIDTH = 300
 MAX_HEIGHT = 200
 
 
-class Pictures_placeInline(SortableTabularInline, admin.TabularInline):
-    model = Pictures_places
+class ImageInline(SortableTabularInline, admin.TabularInline):
+    model = Image
     extra = 1
     fields = ('image', 'get_preview', 'order',)
     readonly_fields = ('get_preview',)
@@ -18,7 +18,12 @@ class Pictures_placeInline(SortableTabularInline, admin.TabularInline):
     def get_preview(self, obj):
         image = obj.image
         if image:
-            return mark_safe(f'<img src="{image.url}" style="max-width: {MAX_WIDTH}px; max-height: {MAX_HEIGHT}px;" />')
+            return format_html(
+                '<img src="{}" style="max-width: {}px; max-height: {}px;" />',
+                image.url,
+                MAX_WIDTH,
+                MAX_HEIGHT,
+            )
         return None
 
     get_preview.short_description = 'PREVIEW'
@@ -28,10 +33,10 @@ class Pictures_placeInline(SortableTabularInline, admin.TabularInline):
 class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
     list_display = ('title', )
 
-    inlines = [Pictures_placeInline, ]
+    inlines = [ImageInline, ]
 
 
-@admin.register(Pictures_places)
-class Pictures_placeAdmin(admin.ModelAdmin):
+@admin.register(Image)
+class ImageAdmin(admin.ModelAdmin):
     fields = ("image", "get_preview", "place", "order",)
     raw_id_fields = ["place", ]
