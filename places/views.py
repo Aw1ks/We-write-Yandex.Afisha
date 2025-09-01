@@ -20,7 +20,6 @@ def index(request):
             'geometry': {
                 'type': 'Point',
                 'coordinates': [place.longitude, place.latitude]
-                # 'coordinates': [place.latitude, place.longitude]
             },
             'properties': {
                 'title': place.title,
