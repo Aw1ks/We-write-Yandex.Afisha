@@ -19,7 +19,8 @@ def index(request):
             'type': 'Feature',
             'geometry': {
                 'type': 'Point',
-                'coordinates': [place.latitude, place.longitude]
+                'coordinates': [place.longitude, place.latitude]
+                # 'coordinates': [place.latitude, place.longitude]
             },
             'properties': {
                 'title': place.title,
@@ -30,7 +31,7 @@ def index(request):
         places['features'].append(place_layout)
 
     context = {
-        'places_json': json.dumps(places)
+        'places': json.dumps(places)
     }
 
     return render(request, 'index.html', context)
@@ -38,7 +39,7 @@ def index(request):
 
 def display_place(request, place_id):
     place = get_object_or_404(
-        Place.objects.prefetch_related("images"),
+        Place.objects.prefetch_related("pictures"),
         id=place_id
     )
 

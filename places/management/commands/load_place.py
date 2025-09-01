@@ -2,9 +2,10 @@ import json
 import requests
 
 from django.core.management.base import BaseCommand, CommandError
+from django.core.exceptions import MultipleObjectsReturned
 from django.core.files.base import ContentFile
 
-from places.models import Pictures_places, Place
+from places.models import Image, Place
 
 
 class Command(BaseCommand):
@@ -58,8 +59,8 @@ def load_place_info(json_info):
             latitude=float(json_info['coordinates']['lat']),
             longitude=float(json_info['coordinates']['lng']),
             defaults={
-                'description_long': json_info.get('description_long', ''),
-                'description_short': json_info.get('description_short', ''),
+                'long_description': json_info.get('description_long', ''),
+                'short_description': json_info.get('description_short', ''),
             }
         )
     except MultipleObjectsReturned:
@@ -80,7 +81,7 @@ def load_place_info(json_info):
 def download_and_save_image(place, image_url, image_name, index):
     image_response = requests.get(image_url)
     image_response.raise_for_status()
-    Pictures_places.objects.create(
+    Image.objects.create(
         place=place,
         order=index,
         image=ContentFile(
