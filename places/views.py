@@ -9,31 +9,31 @@ from places.models import Place
 
 
 def index(request):
-    places = {
-        'type': 'FeatureCollection',
-        'features': []
-    }
+    places = Place.objects.all()
 
-    for place in Place.objects.all():
-        place_layout = {
-            'type': 'Feature',
-            'geometry': {
-                'type': 'Point',
-                'coordinates': [place.longitude, place.latitude]
+    features = [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [place.longitude, place.latitude]
             },
-            'properties': {
-                'title': place.title,
-                'placeId': place.id,
-                'detailsUrl': reverse('display_place', kwargs={'place_id': place.id})
+            "properties": {
+                "title": place.title,
+                "placeId": place.id,
+                "detailsUrl": reverse('display_place', kwargs={'place_id': place.id})
             }
-        }
-        places['features'].append(place_layout)
+        } for place in places
+    ]
 
     context = {
-        'places': json.dumps(places)
+        "places": {
+            "type": "FeatureCollection",
+            "features": features
+        }
     }
 
-    return render(request, 'index.html', context)
+    return render(request, "index.html", context)
 
 
 def display_place(request, place_id):
